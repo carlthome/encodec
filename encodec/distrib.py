@@ -29,8 +29,10 @@ def is_distributed():
     return world_size() > 1
 
 
-def all_reduce(tensor: torch.Tensor, op=torch.distributed.ReduceOp.SUM):
+def all_reduce(tensor: torch.Tensor, op=None):
     if is_distributed():
+        if op is None:
+            op = torch.distributed.ReduceOp.SUM):
         return torch.distributed.all_reduce(tensor, op)
 
 
